@@ -93,6 +93,9 @@ class Game(arcade.Window):
         from gameplay.states.pause_state import PauseState
         from gameplay.states.game_over_state import GameOverState
         
+        # Correction : créer d'abord l'instance de GameplayState
+        gameplay_state = GameplayState(self)
+        
         # Enregistrement des états
         self.state_manager.register_state(
             GameStateType.MAIN_MENU, 
@@ -100,11 +103,11 @@ class Game(arcade.Window):
         )
         self.state_manager.register_state(
             GameStateType.GAMEPLAY, 
-            GameplayState(self)
+            gameplay_state
         )
         self.state_manager.register_state(
             GameStateType.PAUSE, 
-            PauseState(self)
+            PauseState(self, gameplay_state)
         )
         self.state_manager.register_state(
             GameStateType.GAME_OVER, 

@@ -40,6 +40,7 @@ class SteampunkColors:
     BRASS = (225, 193, 110)          # #E1C16E
     IRON = (71, 71, 71)              # #474747
     STEEL = (112, 128, 144)          # #708090
+    DARK_STEEL = (34, 38, 49)
     
     # Accent colors
     RUST = (183, 65, 14)             # #B7410E

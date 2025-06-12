@@ -4,7 +4,6 @@ from ..ui.button import Button
 from ..ui.text import Text
 from ..managers.sound_manager import SoundManager
 
-
 class PauseState(BaseState):
     """État de pause du jeu"""
     
@@ -17,9 +16,14 @@ class PauseState(BaseState):
         self.setup_ui()
     
     def setup_ui(self):
-        """Configure l'interface de pause"""
-        screen_width = self.game.screen.get_width()
-        screen_height = self.game.screen.get_height()
+        # Initialisation de pygame et du module font si ce n'est pas déjà fait
+        if not pygame.get_init():
+            pygame.init()
+        if not pygame.font.get_init():
+            pygame.font.init()
+
+        screen_width = self.game.width
+        screen_height = self.game.height
         
         # Overlay semi-transparent
         self.overlay = pygame.Surface((screen_width, screen_height))

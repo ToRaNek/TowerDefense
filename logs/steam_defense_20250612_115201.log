@@ -1,0 +1,47 @@
+2025-06-12 11:52:01,916 - SteamDefense - INFO - === STEAM DEFENSE - DÉMARRAGE ===
+2025-06-12 11:52:01,939 - SteamDefense - INFO - Démarrage de Steam Defense...
+2025-06-12 11:52:02,282 - ResourceManager - INFO - ResourceManager initialisé
+2025-06-12 11:52:02,282 - ResourceManager - INFO - Préchargement des ressources essentielles...
+2025-06-12 11:52:02,283 - ResourceManager - WARNING - Fichier texture introuvable: assets\textures\missing.png
+2025-06-12 11:52:02,283 - ResourceManager - ERROR - Échec du chargement de la ressource: missing_texture
+2025-06-12 11:52:02,283 - ResourceManager - WARNING - Fichier son introuvable: assets\sounds\ui\click.wav
+2025-06-12 11:52:02,285 - ResourceManager - ERROR - Échec du chargement de la ressource: ui_click
+2025-06-12 11:52:02,285 - ResourceManager - WARNING - Fichier son introuvable: assets\sounds\ui\hover.wav
+2025-06-12 11:52:02,285 - ResourceManager - ERROR - Échec du chargement de la ressource: ui_hover
+2025-06-12 11:52:02,285 - ResourceManager - WARNING - Fichier données introuvable: config\game.json
+2025-06-12 11:52:02,286 - ResourceManager - ERROR - Échec du chargement de la ressource: game_config
+2025-06-12 11:52:02,286 - ResourceManager - WARNING - Fichier données introuvable: assets\data\enemies.json
+2025-06-12 11:52:02,286 - ResourceManager - ERROR - Échec du chargement de la ressource: enemy_stats
+2025-06-12 11:52:02,286 - ResourceManager - WARNING - Fichier données introuvable: assets\data\towers.json
+2025-06-12 11:52:02,287 - ResourceManager - ERROR - Échec du chargement de la ressource: tower_stats
+2025-06-12 11:52:02,287 - ResourceManager - INFO - Préchargement terminé: 0/6 ressources
+2025-06-12 11:52:02,444 - Game - INFO - Initialisation de la classe Game
+2025-06-12 11:52:02,445 - StateManager - INFO - StateManager initialisé
+2025-06-12 11:52:02,445 - EventSystem - INFO - EventSystem initialisé
+2025-06-12 11:52:02,445 - GameTimer - INFO - GameTimer initialisé
+2025-06-12 11:52:02,445 - InputManager - INFO - InputManager initialisé
+2025-06-12 11:52:02,446 - Camera2D - INFO - Caméra 2D initialisée: 1280x720
+2025-06-12 11:52:02,446 - Renderer - INFO - Renderer initialisé
+2025-06-12 11:52:02,645 - StateManager - INFO - Transitions par défaut configurées
+2025-06-12 11:52:02,646 - StateManager - INFO - Changement d'état programmé: main_menu
+2025-06-12 11:52:02,646 - Game - INFO - Game initialisé avec succès
+2025-06-12 11:52:02,647 - Game - INFO - Démarrage de la boucle principale
+2025-06-12 11:52:02,647 - Camera2D - INFO - Caméra redimensionnée: 1280x720
+2025-06-12 11:52:02,648 - Renderer - INFO - Renderer redimensionné: 1280x720
+2025-06-12 11:52:02,648 - Game - INFO - Fenêtre redimensionnée: 1280x720
+2025-06-12 11:52:02,649 - GameState.MainMenuState - INFO - Entrée dans l'état MainMenuState
+2025-06-12 11:52:02,650 - GameState.MainMenuState - INFO - Menu principal affiché
+2025-06-12 11:52:02,650 - StateManager - INFO - Changement d'état exécuté: main_menu
+2025-06-12 11:52:03,052 - Game - ERROR - Erreur de rendu: module 'arcade' has no attribute 'draw_rectangle_filled'
+2025-06-12 11:52:03,071 - Game - ERROR - Erreur dans la boucle principale: start_render() can only be called once during the application's lifetime and should only be used when calling draw functions at module level in a simple script to produce a static image. If you are seeing this error you likely intended to call clear() instead.
+2025-06-12 11:52:03,072 - Game - INFO - Nettoyage des ressources...
+2025-06-12 11:52:03,072 - StateManager - INFO - Nettoyage du StateManager
+2025-06-12 11:52:03,072 - GameState.MainMenuState - INFO - Sortie de l'état MainMenuState
+2025-06-12 11:52:03,073 - StateManager - INFO - StateManager nettoyé
+2025-06-12 11:52:03,073 - ResourceManager - INFO - Nettoyage du ResourceManager...
+2025-06-12 11:52:03,073 - ResourceCache - INFO - Cache entièrement vidé (0 ressources)
+2025-06-12 11:52:03,074 - ResourceManager - INFO - ResourceManager nettoyé
+2025-06-12 11:52:03,074 - Renderer - INFO - Nettoyage du Renderer
+2025-06-12 11:52:03,074 - Renderer - INFO - Renderer nettoyé
+2025-06-12 11:52:03,075 - Game - INFO - Nettoyage terminé
+2025-06-12 11:52:03,268 - SteamDefense - ERROR - Steam Defense fermé avec erreur (code: 1)

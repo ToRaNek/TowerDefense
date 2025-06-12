@@ -1,0 +1,44 @@
+2025-06-12 11:48:10,363 - SteamDefense - INFO - === STEAM DEFENSE - DÉMARRAGE ===
+2025-06-12 11:48:10,388 - SteamDefense - INFO - Démarrage de Steam Defense...
+2025-06-12 11:48:10,794 - ResourceManager - INFO - ResourceManager initialisé
+2025-06-12 11:48:10,794 - ResourceManager - INFO - Préchargement des ressources essentielles...
+2025-06-12 11:48:10,794 - ResourceManager - WARNING - Fichier texture introuvable: assets\textures\missing.png
+2025-06-12 11:48:10,795 - ResourceManager - ERROR - Échec du chargement de la ressource: missing_texture
+2025-06-12 11:48:10,795 - ResourceManager - WARNING - Fichier son introuvable: assets\sounds\ui\click.wav
+2025-06-12 11:48:10,795 - ResourceManager - ERROR - Échec du chargement de la ressource: ui_click
+2025-06-12 11:48:10,796 - ResourceManager - WARNING - Fichier son introuvable: assets\sounds\ui\hover.wav
+2025-06-12 11:48:10,796 - ResourceManager - ERROR - Échec du chargement de la ressource: ui_hover
+2025-06-12 11:48:10,796 - ResourceManager - WARNING - Fichier données introuvable: config\game.json
+2025-06-12 11:48:10,796 - ResourceManager - ERROR - Échec du chargement de la ressource: game_config
+2025-06-12 11:48:10,796 - ResourceManager - WARNING - Fichier données introuvable: assets\data\enemies.json
+2025-06-12 11:48:10,797 - ResourceManager - ERROR - Échec du chargement de la ressource: enemy_stats
+2025-06-12 11:48:10,797 - ResourceManager - WARNING - Fichier données introuvable: assets\data\towers.json
+2025-06-12 11:48:10,797 - ResourceManager - ERROR - Échec du chargement de la ressource: tower_stats
+2025-06-12 11:48:10,797 - ResourceManager - INFO - Préchargement terminé: 0/6 ressources
+2025-06-12 11:48:10,996 - Game - INFO - Initialisation de la classe Game
+2025-06-12 11:48:10,996 - StateManager - INFO - StateManager initialisé
+2025-06-12 11:48:10,997 - EventSystem - INFO - EventSystem initialisé
+2025-06-12 11:48:10,997 - GameTimer - INFO - GameTimer initialisé
+2025-06-12 11:48:10,997 - InputManager - INFO - InputManager initialisé
+2025-06-12 11:48:10,998 - Camera2D - INFO - Caméra 2D initialisée: 1280x720
+2025-06-12 11:48:10,998 - Renderer - INFO - Renderer initialisé
+2025-06-12 11:48:11,247 - StateManager - INFO - Transitions par défaut configurées
+2025-06-12 11:48:11,247 - StateManager - INFO - Changement d'état programmé: main_menu
+2025-06-12 11:48:11,248 - Game - INFO - Game initialisé avec succès
+2025-06-12 11:48:11,248 - Game - INFO - Démarrage de la boucle principale
+2025-06-12 11:48:11,249 - Camera2D - INFO - Caméra redimensionnée: 1280x720
+2025-06-12 11:48:11,249 - Renderer - INFO - Renderer redimensionné: 1280x720
+2025-06-12 11:48:11,249 - Game - INFO - Fenêtre redimensionnée: 1280x720
+2025-06-12 11:48:11,251 - GameState.MainMenuState - INFO - Entrée dans l'état MainMenuState
+2025-06-12 11:48:11,251 - Game - ERROR - Erreur dans la boucle principale: type object 'SteampunkColors' has no attribute 'DARK_STEEL'
+2025-06-12 11:48:11,251 - Game - INFO - Nettoyage des ressources...
+2025-06-12 11:48:11,251 - StateManager - INFO - Nettoyage du StateManager
+2025-06-12 11:48:11,251 - GameState.MainMenuState - INFO - Sortie de l'état MainMenuState
+2025-06-12 11:48:11,251 - StateManager - INFO - StateManager nettoyé
+2025-06-12 11:48:11,252 - ResourceManager - INFO - Nettoyage du ResourceManager...
+2025-06-12 11:48:11,252 - ResourceCache - INFO - Cache entièrement vidé (0 ressources)
+2025-06-12 11:48:11,252 - ResourceManager - INFO - ResourceManager nettoyé
+2025-06-12 11:48:11,252 - Renderer - INFO - Nettoyage du Renderer
+2025-06-12 11:48:11,252 - Renderer - INFO - Renderer nettoyé
+2025-06-12 11:48:11,253 - Game - INFO - Nettoyage terminé
+2025-06-12 11:48:11,305 - SteamDefense - ERROR - Steam Defense fermé avec erreur (code: 1)
