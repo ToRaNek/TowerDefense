@@ -156,10 +156,9 @@ class InputManager:
             InputBinding(InputAction.PAUSE, InputType.KEYBOARD, arcade.key.P, description="Pause"),
             InputBinding(InputAction.PAUSE, InputType.KEYBOARD, arcade.key.SPACE, description="Pause (espace)"),
             InputBinding(InputAction.SPEED_UP, InputType.KEYBOARD, arcade.key.PLUS, description="Accélérer"),
-            InputBinding(InputAction.SPEED_UP, InputType.KEYBOARD, arcade.key.NUM_PLUS, description="Accélérer (pavé num)"),
+            InputBinding(InputAction.SPEED_UP, InputType.KEYBOARD, arcade.key.EQUAL, description="Accélérer (=)"),  # = est sur la même touche que +
             InputBinding(InputAction.SPEED_DOWN, InputType.KEYBOARD, arcade.key.MINUS, description="Ralentir"),
-            InputBinding(InputAction.SPEED_DOWN, InputType.KEYBOARD, arcade.key.NUM_MINUS, description="Ralentir (pavé num)"),
-            InputBinding(InputAction.SPEED_NORMAL, InputType.KEYBOARD, arcade.key.NUM_1, description="Vitesse normale"),
+            InputBinding(InputAction.SPEED_NORMAL, InputType.KEYBOARD, arcade.key.KEY_1, description="Vitesse normale"),
             
             # Clavier - Interface
             InputBinding(InputAction.TOGGLE_MENU, InputType.KEYBOARD, arcade.key.TAB, description="Basculer menu"),

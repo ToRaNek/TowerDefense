@@ -7,6 +7,7 @@ Gère le rendu optimisé pour le jeu 2D avec effets steampunk
 import arcade
 import math
 import logging
+import random
 from typing import List, Dict, Tuple, Optional, Any, Set
 from enum import Enum
 from dataclasses import dataclass
@@ -154,23 +155,37 @@ class Renderer:
     
     def _setup_opengl(self):
         """Configure les paramètres OpenGL"""
-        # Activation de l'alpha blending
-        arcade.enable_blending()
-        
-        # Configuration de l'antialiasing si supporté
-        if SETTINGS.get('ANTIALIASING', False):
-            try:
-                arcade.enable_smooth_textures()
-                self.logger.debug("Antialiasing activé")
-            except:
-                self.logger.warning("Antialiasing non supporté")
+        try:
+            # Essayer d'activer l'alpha blending si la fonction existe
+            if hasattr(arcade, 'enable_blending'):
+                arcade.enable_blending()
+                self.logger.debug("Alpha blending activé")
+            else:
+                self.logger.debug("Alpha blending non disponible (géré automatiquement par Arcade)")
+            
+            # Configuration de l'antialiasing si supporté
+            if SETTINGS.get('ANTIALIASING', False):
+                try:
+                    if hasattr(arcade, 'enable_smooth_textures'):
+                        arcade.enable_smooth_textures()
+                        self.logger.debug("Antialiasing activé")
+                    else:
+                        self.logger.debug("Antialiasing non disponible dans cette version d'Arcade")
+                except Exception as e:
+                    self.logger.warning(f"Impossible d'activer l'antialiasing: {e}")
+        except Exception as e:
+            self.logger.warning(f"Erreur lors de la configuration OpenGL: {e}")
     
     def begin_frame(self):
         """Démarre un nouveau frame de rendu"""
         frame_start_time = time.time()
         
         # Effacement de l'écran
-        arcade.start_render()
+        try:
+            arcade.start_render()
+        except AttributeError:
+            # Dans les nouvelles versions d'Arcade, start_render() peut ne pas exister
+            pass
         
         # Mise à jour de la caméra
         self.camera.use()
@@ -199,7 +214,11 @@ class Renderer:
         self._render_particle_effects()
         
         # Finalisation
-        arcade.finish_render()
+        try:
+            arcade.finish_render()
+        except AttributeError:
+            # Dans les nouvelles versions d'Arcade, finish_render() peut ne pas exister
+            pass
         
         # Mise à jour des statistiques
         self.stats['frames_rendered'] += 1
@@ -735,60 +754,67 @@ def create_gradient_texture(width: int, height: int,
         start_color, end_color: Couleurs de début et fin
         direction: "vertical", "horizontal", "radial"
     """
-    import numpy as np
-    
-    # Création du tableau de pixels
-    pixels = np.zeros((height, width, 4), dtype=np.uint8)
-    
-    if direction == "vertical":
-        for y in range(height):
-            t = y / (height - 1) if height > 1 else 0
-            color = [
-                int(start_color[i] + (end_color[i] - start_color[i]) * t)
-                for i in range(3)
-            ]
-            pixels[y, :, :3] = color
-            pixels[y, :, 3] = 255  # Alpha
-    
-    elif direction == "horizontal":
-        for x in range(width):
-            t = x / (width - 1) if width > 1 else 0
-            color = [
-                int(start_color[i] + (end_color[i] - start_color[i]) * t)
-                for i in range(3)
-            ]
-            pixels[:, x, :3] = color
-            pixels[:, x, 3] = 255  # Alpha
-    
-    elif direction == "radial":
-        center_x, center_y = width // 2, height // 2
-        max_distance = math.sqrt(center_x**2 + center_y**2)
+    try:
+        import numpy as np
         
-        for y in range(height):
-            for x in range(width):
-                distance = math.sqrt((x - center_x)**2 + (y - center_y)**2)
-                t = min(1.0, distance / max_distance)
-                
+        # Création du tableau de pixels
+        pixels = np.zeros((height, width, 4), dtype=np.uint8)
+        
+        if direction == "vertical":
+            for y in range(height):
+                t = y / (height - 1) if height > 1 else 0
                 color = [
                     int(start_color[i] + (end_color[i] - start_color[i]) * t)
                     for i in range(3)
                 ]
-                pixels[y, x, :3] = color
-                pixels[y, x, 3] = 255  # Alpha
-    
-    # Conversion en texture Arcade
-    # Note: Arcade peut nécessiter une conversion différente selon la version
-    texture_name = f"gradient_{direction}_{width}x{height}"
-    
-    try:
-        # Tentative de création directe
-        return arcade.Texture.create_from_array(texture_name, pixels)
-    except:
-        # Méthode alternative si la précédente échoue
+                pixels[y, :, :3] = color
+                pixels[y, :, 3] = 255  # Alpha
+        
+        elif direction == "horizontal":
+            for x in range(width):
+                t = x / (width - 1) if width > 1 else 0
+                color = [
+                    int(start_color[i] + (end_color[i] - start_color[i]) * t)
+                    for i in range(3)
+                ]
+                pixels[:, x, :3] = color
+                pixels[:, x, 3] = 255  # Alpha
+        
+        elif direction == "radial":
+            center_x, center_y = width // 2, height // 2
+            max_distance = math.sqrt(center_x**2 + center_y**2)
+            
+            for y in range(height):
+                for x in range(width):
+                    distance = math.sqrt((x - center_x)**2 + (y - center_y)**2)
+                    t = min(1.0, distance / max_distance)
+                    
+                    color = [
+                        int(start_color[i] + (end_color[i] - start_color[i]) * t)
+                        for i in range(3)
+                    ]
+                    pixels[y, x, :3] = color
+                    pixels[y, x, 3] = 255  # Alpha
+        
+        # Conversion en texture Arcade
+        texture_name = f"gradient_{direction}_{width}x{height}"
+        
+        try:
+            # Tentative de création directe
+            if hasattr(arcade.Texture, 'create_from_array'):
+                return arcade.Texture.create_from_array(texture_name, pixels)
+            else:
+                # Méthode alternative
+                return arcade.Texture.create_filled(texture_name, (width, height), end_color)
+        except Exception:
+            # Fallback si toutes les méthodes échouent
+            return arcade.Texture.create_filled(texture_name, (width, height), end_color)
+            
+    except ImportError:
+        # Si numpy n'est pas disponible, créer une texture unie
+        texture_name = f"solid_{width}x{height}"
         return arcade.Texture.create_filled(texture_name, (width, height), end_color)
 
-
-import random  # Import manquant pour les effets de particules
 
 def lerp_color(color1: Tuple[int, int, int], color2: Tuple[int, int, int], t: float) -> Tuple[int, int, int]:
     """Interpolation linéaire entre deux couleurs"""

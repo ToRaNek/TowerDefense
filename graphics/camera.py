@@ -95,8 +95,20 @@ class Camera2D:
         self.zoom_speed = 2.0
         self.rotation_speed = 180.0  # degrés par seconde
         
-        # Caméra Arcade native
-        self.arcade_camera = arcade.Camera(viewport_width, viewport_height)
+        # Caméra Arcade native (utilisation de SimpleCamera)
+        try:
+            # Essaie d'utiliser la nouvelle API Camera2D si disponible
+            if hasattr(arcade, 'camera') and hasattr(arcade.camera, 'Camera2D'):
+                self.arcade_camera = arcade.camera.Camera2D()
+            elif hasattr(arcade, 'Camera2D'):
+                self.arcade_camera = arcade.Camera2D()
+            else:
+                # Fallback: pas de caméra Arcade native
+                self.arcade_camera = None
+                self.logger.warning("Caméra Arcade native non disponible, utilisation du système manuel")
+        except Exception as e:
+            self.logger.warning(f"Impossible d'initialiser la caméra Arcade: {e}")
+            self.arcade_camera = None
         
         # Historique pour effets
         self.position_history = []
@@ -219,6 +231,9 @@ class Camera2D:
     
     def _sync_arcade_camera(self):
         """Synchronise avec la caméra Arcade native"""
+        if not self.arcade_camera:
+            return
+            
         # Position avec effet de secousse
         final_x = self.x
         final_y = self.y
@@ -229,15 +244,42 @@ class Camera2D:
             final_x += shake_x
             final_y += shake_y
         
-        # Application à la caméra Arcade
-        self.arcade_camera.position = (final_x, final_y)
-        
-        # Note: Arcade ne supporte pas directement zoom et rotation sur Camera
-        # Ces effets devront être appliqués manuellement lors du rendu
+        # Application à la caméra Arcade selon l'API disponible
+        try:
+            if hasattr(self.arcade_camera, 'position'):
+                self.arcade_camera.position = (final_x, final_y)
+            elif hasattr(self.arcade_camera, 'move_to'):
+                self.arcade_camera.move_to((final_x, final_y))
+        except Exception as e:
+            self.logger.debug(f"Erreur lors de la synchronisation de la caméra: {e}")
     
     def use(self):
         """Active cette caméra pour le rendu"""
-        self.arcade_camera.use()
+        if self.arcade_camera and hasattr(self.arcade_camera, 'use'):
+            self.arcade_camera.use()
+        else:
+            # Transformation manuelle si pas de caméra Arcade
+            self.apply_manual_transform()
+    
+    def apply_manual_transform(self):
+        """Applique une transformation manuelle pour simuler la caméra"""
+        # Position avec effet de secousse
+        final_x = self.x
+        final_y = self.y
+        
+        if self.shake_intensity > 0 and self.shake_duration > 0:
+            shake_x = math.sin(self.shake_timer * self.shake_frequency) * self.shake_intensity
+            shake_y = math.cos(self.shake_timer * self.shake_frequency * 1.3) * self.shake_intensity
+            final_x += shake_x
+            final_y += shake_y
+        
+        # Application de la transformation
+        arcade.set_viewport(
+            final_x - self.viewport_width / (2 * self.zoom),
+            final_x + self.viewport_width / (2 * self.zoom),
+            final_y - self.viewport_height / (2 * self.zoom),
+            final_y + self.viewport_height / (2 * self.zoom)
+        )
     
     def set_position(self, x: float, y: float, immediate: bool = False):
         """
@@ -375,7 +417,12 @@ class Camera2D:
         """
         self.viewport_width = new_width
         self.viewport_height = new_height
-        self.arcade_camera.resize(new_width, new_height)
+        
+        if self.arcade_camera and hasattr(self.arcade_camera, 'resize'):
+            try:
+                self.arcade_camera.resize(new_width, new_height)
+            except Exception as e:
+                self.logger.debug(f"Erreur lors du redimensionnement de la caméra Arcade: {e}")
         
         self.logger.info(f"Caméra redimensionnée: {new_width}x{new_height}")
     

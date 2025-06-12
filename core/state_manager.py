@@ -5,7 +5,7 @@ Gère les différents états du jeu (menu, gameplay, pause, etc.)
 """
 
 import logging
-from typing import Dict, Optional, Any, Type
+from typing import Dict, Optional, Any, Type, List
 from enum import Enum
 from abc import ABC, abstractmethod
 

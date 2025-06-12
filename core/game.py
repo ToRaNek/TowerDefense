@@ -64,7 +64,7 @@ class Game(arcade.Window):
         # Métriques de performance
         self.frame_count = 0
         self.fps_timer = 0.0
-        self.current_fps = 0.0
+        self._current_fps = 0.0  # Variable privée pour stocker le FPS
         self.frame_time_history = []
         
         # Configuration initiale
@@ -81,7 +81,8 @@ class Game(arcade.Window):
         # Configuration de l'antialiasing si supporté
         if SETTINGS['ANTIALIASING']:
             try:
-                arcade.enable_smooth_textures()
+                if hasattr(arcade, 'enable_smooth_textures'):
+                    arcade.enable_smooth_textures()
             except Exception as e:
                 self.logger.warning(f"Antialiasing non supporté: {e}")
     
@@ -109,6 +110,9 @@ class Game(arcade.Window):
             GameStateType.GAME_OVER, 
             GameOverState(self)
         )
+        
+        # Configuration des transitions par défaut
+        self.state_manager.setup_default_transitions()
         
         # État initial
         self.state_manager.change_state(GameStateType.MAIN_MENU)
@@ -165,9 +169,7 @@ class Game(arcade.Window):
         self.event_system.process_events()
         
         # Mise à jour de l'état actuel
-        current_state = self.state_manager.get_current_state()
-        if current_state:
-            current_state.update(delta_time)
+        self.state_manager.update(delta_time)
         
         # Mise à jour de la caméra
         self.camera.update(delta_time)
@@ -185,9 +187,7 @@ class Game(arcade.Window):
         
         try:
             # Rendu de l'état actuel
-            current_state = self.state_manager.get_current_state()
-            if current_state:
-                current_state.render(self.renderer)
+            self.state_manager.render(self.renderer)
             
             # Rendu des éléments de debug
             if self.debug_mode:
@@ -251,7 +251,7 @@ class Game(arcade.Window):
         
         # Calcul du FPS toutes les secondes
         if self.fps_timer >= 1.0:
-            self.current_fps = self.frame_count / self.fps_timer
+            self._current_fps = self.frame_count / self.fps_timer
             self.frame_count = 0
             self.fps_timer = 0.0
         
@@ -283,9 +283,9 @@ class Game(arcade.Window):
             return
         
         debug_text = [
-            f"FPS: {self.current_fps:.1f}",
+            f"FPS: {self._current_fps:.1f}",
             f"Frame Time: {self.frame_time_history[-1]*1000:.1f}ms" if self.frame_time_history else "Frame Time: N/A",
-            f"State: {self.state_manager.get_current_state_type().name}",
+            f"State: {self.state_manager.get_current_state_type().name if self.state_manager.get_current_state_type() else 'None'}",
             f"Camera: ({self.camera.x:.1f}, {self.camera.y:.1f})",
         ]
         
@@ -365,7 +365,7 @@ class Game(arcade.Window):
     @property
     def current_fps(self) -> float:
         """Retourne le FPS actuel"""
-        return self.current_fps
+        return self._current_fps
     
     @property
     def game_time(self) -> float:
@@ -387,3 +387,7 @@ class Game(arcade.Window):
     def get_renderer(self) -> Renderer:
         """Retourne le renderer"""
         return self.renderer
+    
+    def quit(self):
+        """Méthode pour quitter proprement le jeu"""
+        self._on_game_quit()
